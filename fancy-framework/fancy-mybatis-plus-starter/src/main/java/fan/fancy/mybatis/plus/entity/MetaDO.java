@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 元数据实体类.
+ * 元实体类.
  *
  * @author Fan
  */

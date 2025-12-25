@@ -1,7 +1,9 @@
 package fan.fancy.mybatis.plus.generator;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 代码生成器配置.
@@ -10,6 +12,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CodeProperties {
 
     private String url;

@@ -10,14 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 /**
- * P6SpyEnabled 测试类.
+ * P6Spy 测试类.
  *
  * @author Fan
  */
@@ -25,7 +24,8 @@ import java.util.List;
 class P6SpyTest {
 
     @Autowired
-    private ArticleDAO articleDAO;
+    private SysUserMapper sysUserMapper;
+
     private ListAppender<ILoggingEvent> listAppender;
 
     @BeforeEach
@@ -42,8 +42,8 @@ class P6SpyTest {
     }
 
     @Test
-    void should_log_sql_with_p6spy_format() {
-        articleDAO.selectById(1L);
+    void selectById_withP6Spy_logsFormattedSqlWithExecutionTime() {
+        sysUserMapper.selectById(1L);
 
         List<String> logs = listAppender.list.stream()
                 .map(ILoggingEvent::getFormattedMessage)
@@ -54,7 +54,6 @@ class P6SpyTest {
                 .anyMatch(log -> log.contains("ms"));
     }
 
-    @SpringBootConfiguration
     @EnableAutoConfiguration
     @MapperScan("fan.fancy.mybatis.plus")
     static class TestApplication {

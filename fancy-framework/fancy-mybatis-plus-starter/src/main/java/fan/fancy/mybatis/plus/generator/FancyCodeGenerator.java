@@ -18,18 +18,6 @@ import java.util.function.Consumer;
 @UtilityClass
 public class FancyCodeGenerator {
 
-    private static void validate(CodeProperties properties) {
-        Objects.requireNonNull(properties.getUrl(), "jdbc url must not be null.");
-        Objects.requireNonNull(properties.getUsername(), "username must not be null.");
-        Objects.requireNonNull(properties.getOutputDir(), "outputDir must not be null.");
-    }
-
-    public static void generateAll(CodeProperties properties) {
-        generateInternal(properties, builder ->
-                builder.addTablePrefix(properties.getTablePrefix())
-                        .addTableSuffix(properties.getTableSuffix()));
-    }
-
     public static void generate(CodeProperties properties, String... tables) {
         generateInternal(properties, builder -> builder.addInclude(tables));
     }
@@ -73,5 +61,17 @@ public class FancyCodeGenerator {
                 // 模板引擎配置, 默认是 Velocity.
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
+    }
+
+    public static void generateAll(CodeProperties properties) {
+        generateInternal(properties, builder ->
+                builder.addTablePrefix(properties.getTablePrefix())
+                        .addTableSuffix(properties.getTableSuffix()));
+    }
+
+    private static void validate(CodeProperties properties) {
+        Objects.requireNonNull(properties.getUrl(), "jdbc url must not be null.");
+        Objects.requireNonNull(properties.getUsername(), "username must not be null.");
+        Objects.requireNonNull(properties.getOutputDir(), "outputDir must not be null.");
     }
 }
