@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import fan.fancy.mybatis.plus.properties.FancyCodeProperties;
 import lombok.experimental.UtilityClass;
 
 import java.sql.Types;
@@ -18,11 +19,11 @@ import java.util.function.Consumer;
 @UtilityClass
 public class FancyCodeGenerator {
 
-    public static void generate(CodeProperties properties, String... tables) {
+    public static void generate(FancyCodeProperties properties, String... tables) {
         generateInternal(properties, builder -> builder.addInclude(tables));
     }
 
-    private static void generateInternal(CodeProperties properties, Consumer<StrategyConfig.Builder> strategyCustomizer) {
+    private static void generateInternal(FancyCodeProperties properties, Consumer<StrategyConfig.Builder> strategyCustomizer) {
         validate(properties);
 
         FastAutoGenerator.create(properties.getUrl(), properties.getUsername(), properties.getPassword())
@@ -63,13 +64,13 @@ public class FancyCodeGenerator {
                 .execute();
     }
 
-    public static void generateAll(CodeProperties properties) {
+    public static void generateAll(FancyCodeProperties properties) {
         generateInternal(properties, builder ->
                 builder.addTablePrefix(properties.getTablePrefix())
                         .addTableSuffix(properties.getTableSuffix()));
     }
 
-    private static void validate(CodeProperties properties) {
+    private static void validate(FancyCodeProperties properties) {
         Objects.requireNonNull(properties.getUrl(), "jdbc url must not be null.");
         Objects.requireNonNull(properties.getUsername(), "username must not be null.");
         Objects.requireNonNull(properties.getOutputDir(), "outputDir must not be null.");

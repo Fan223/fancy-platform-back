@@ -1,2 +1,2 @@
-INSERT INTO sys_user(username, age, create_time)
-VALUES ('fan', 18, CURRENT_TIMESTAMP);
+INSERT INTO sys_user(id, username, age, create_time, update_time)
+VALUES (1, 'fan', 18, current_timestamp, current_timestamp);

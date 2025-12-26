@@ -1,15 +1,14 @@
 package fan.fancy.mybatis.plus.properties;
 
-import lombok.Data;
+import lombok.experimental.UtilityClass;
 
 /**
- * Properties
+ * P6Spy 配置.
  *
  * @author Fan
  */
-@Data
-//@ConfigurationProperties("decorator.datasource.p6spy.log-format")
+@UtilityClass
 public class FancyP6SpyProperties {
 
-    private String logFormat = "分类: %(category)\t耗时: %(executionTime)ms\n\t%(sql)";
+    public static final String LOG_FORMAT = "分类: %(category)\t耗时: %(executionTime)ms\n\t%(sql)";
 }

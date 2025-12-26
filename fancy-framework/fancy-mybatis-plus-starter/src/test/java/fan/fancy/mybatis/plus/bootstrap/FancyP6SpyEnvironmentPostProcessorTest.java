@@ -1,27 +1,27 @@
-package fan.fancy.mybatis.plus;
+package fan.fancy.mybatis.plus.bootstrap;
 
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import fan.fancy.mybatis.plus.TestApplication;
+import fan.fancy.mybatis.plus.mapper.SysUserMapper;
 import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 /**
- * P6Spy 测试类.
+ * {@link FancyP6SpyEnvironmentPostProcessor} 测试类.
  *
  * @author Fan
  */
-@SpringBootTest(classes = P6SpyTest.TestApplication.class)
-class P6SpyTest {
+@SpringBootTest(classes = TestApplication.class)
+class FancyP6SpyEnvironmentPostProcessorTest {
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -52,10 +52,5 @@ class P6SpyTest {
         AssertionsForInterfaceTypes.assertThat(logs)
                 .anyMatch(log -> log.contains("SELECT"))
                 .anyMatch(log -> log.contains("ms"));
-    }
-
-    @EnableAutoConfiguration
-    @MapperScan("fan.fancy.mybatis.plus")
-    static class TestApplication {
     }
 }

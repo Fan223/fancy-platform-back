@@ -1,7 +1,6 @@
-package fan.fancy.mybatis.plus;
+package fan.fancy.mybatis.plus.generator;
 
-import fan.fancy.mybatis.plus.generator.CodeProperties;
-import fan.fancy.mybatis.plus.generator.FancyCodeGenerator;
+import fan.fancy.mybatis.plus.properties.FancyCodeProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -20,7 +19,7 @@ class FancyCodeGeneratorTest {
 
     @Test
     void generate_validProperties_executesSuccessfully() {
-        CodeProperties properties = CodeProperties.builder()
+        FancyCodeProperties properties = FancyCodeProperties.builder()
                 .url("jdbc:h2:mem:test_db")
                 .username("sa")
                 .password("")
@@ -33,7 +32,7 @@ class FancyCodeGeneratorTest {
 
     @Test
     void generate_nullUrl_throwsException() {
-        CodeProperties properties = CodeProperties.builder()
+        FancyCodeProperties properties = FancyCodeProperties.builder()
                 .username("root")
                 .outputDir(tempDir.toString())
                 .build();
@@ -42,7 +41,7 @@ class FancyCodeGeneratorTest {
 
     @Test
     void generate_nullUsername_throwsException() {
-        CodeProperties properties = CodeProperties.builder()
+        FancyCodeProperties properties = FancyCodeProperties.builder()
                 .url("jdbc:h2:mem:test_db")
                 .username(null)
                 .outputDir(tempDir.toString())
@@ -52,7 +51,7 @@ class FancyCodeGeneratorTest {
 
     @Test
     void generate_nullOutputDir_throwsException() {
-        CodeProperties properties = CodeProperties.builder()
+        FancyCodeProperties properties = FancyCodeProperties.builder()
                 .url("jdbc:h2:mem:test_db")
                 .username("root")
                 .build();
@@ -61,7 +60,7 @@ class FancyCodeGeneratorTest {
 
     @Test
     void generateAll_validProperties_executesSuccessfully() {
-        CodeProperties properties = CodeProperties.builder()
+        FancyCodeProperties properties = FancyCodeProperties.builder()
                 .url("jdbc:h2:mem:test_db")
                 .username("sa")
                 .password("")

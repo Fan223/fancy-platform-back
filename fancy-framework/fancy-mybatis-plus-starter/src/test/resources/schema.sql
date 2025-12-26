@@ -1,7 +1,9 @@
 CREATE TABLE sys_user
 (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username    VARCHAR(64),
-    age         INT,
-    create_time TIMESTAMP
+    id          bigint primary key,
+    username    varchar(64),
+    age         int,
+    delete_time timestamp,
+    create_time timestamp,
+    update_time timestamp
 );
