@@ -4,7 +4,7 @@ import fan.fancy.mybatis.plus.TestApplication;
 import fan.fancy.mybatis.plus.entity.MetaDO;
 import fan.fancy.mybatis.plus.entity.SysUserDO;
 import fan.fancy.mybatis.plus.mapper.SysUserMapper;
-import org.awaitility.Awaitility;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +36,16 @@ class FancyMyBatisPlusAutoConfigurationTest {
     }
 
     @Test
+    @SneakyThrows
     void updateEntity_withExistingUpdateTime_refreshUpdateTime() {
         SysUserDO sysUserDO = new SysUserDO();
         sysUserDO.setUsername("test");
         sysUserMapper.insert(sysUserDO);
 
         LocalDateTime oldUpdateTime = sysUserDO.getUpdateTime();
-        Awaitility.await().atMost(2, TimeUnit.SECONDS);
+        TimeUnit.SECONDS.sleep(2);
         sysUserDO.setUsername("updated");
+        sysUserDO.setUpdateTime(null);
         sysUserMapper.updateById(sysUserDO);
 
         MetaDO updated = sysUserMapper.selectById(sysUserDO.getId());
