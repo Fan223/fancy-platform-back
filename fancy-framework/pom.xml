@@ -14,5 +14,6 @@
     <modules>
         <module>fancy-mybatis-plus-starter</module>
         <module>fancy-redis-starter</module>
+        <module>fancy-jackson-starter</module>
     </modules>
 </project>
