@@ -1,6 +1,7 @@
 package fan.fancy.redis.core;
 
 import org.redisson.api.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public class FancyRedisTemplate<V> {
 
     private final RedissonClient redissonClient;
 
-    public FancyRedisTemplate(RedisTemplate<String, V> redisTemplate, RedissonClient redissonClient) {
+    public FancyRedisTemplate(@Qualifier("redisTemplate") RedisTemplate<String, V> redisTemplate, RedissonClient redissonClient) {
         this.redisTemplate = redisTemplate;
         this.redissonClient = redissonClient;
     }

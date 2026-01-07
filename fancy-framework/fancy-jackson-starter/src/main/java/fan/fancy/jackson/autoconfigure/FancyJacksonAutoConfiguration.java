@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import tools.jackson.databind.json.JsonMapper;
 
-
 /**
  * Jackson 自动配置类.
  *
