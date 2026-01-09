@@ -1,7 +1,7 @@
 package fan.fancy.log.test;
 
-import fan.fancy.log.annotation.FancyLog;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -12,14 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = TestApplication.class)
 class LogTest {
 
-    @FancyLog
-    public String test(String name) {
-        return "Hello, " + name;
-    }
+    @Autowired
+    private TestService testService;
 
     @Test
     void testLog() {
-        String result = test("World");
+        String result = testService.test("World");
         System.out.println(result);
     }
 }
