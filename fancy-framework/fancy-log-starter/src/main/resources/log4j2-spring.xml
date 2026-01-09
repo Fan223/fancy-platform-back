@@ -4,12 +4,10 @@
     <Properties>
         <!-- 日志格式: 时间 等级 线程ID TraceID 线程名 Logger名称 : 日志内容 -->
         <Property name="CONSOLE_PATTERN">
-            %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %highlight{%-5level} %style{${sys:PID}}{magenta} %notEmpty{[%X{traceId}]}
-            --- [%15.15t] %style{%-40.40logger}{cyan} : %msg%n
+            %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %highlight{%-5level} %style{${sys:PID}}{magenta} %notEmpty{[%X{traceId}]} --- [%15.15t] %style{%-40.40logger}{cyan} : %msg%n
         </Property>
         <Property name="FILE_PATTERN">
-            %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level ${sys:PID} %notEmpty{[%X{traceId}]} --- [%15.15t] %-40.40logger :
-            %msg%n
+            %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level ${sys:PID} %notEmpty{[%X{traceId}]} --- [%15.15t] %-40.40logger : %msg%n
         </Property>
         <!-- 日志目录, 默认 logs -->
         <Property name="LOG_PATH">${logging.file.path:-logs}</Property>
