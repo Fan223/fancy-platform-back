@@ -1,15 +1,16 @@
 package fan.fancy.log.filter;
 
+import fan.fancy.toolkit.id.IdUtils;
+import fan.fancy.toolkit.lang.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.ThreadContext;
 import org.jspecify.annotations.NonNull;
-import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * 13
@@ -18,23 +19,23 @@ import java.util.UUID;
  */
 public class TraceIdFilter extends OncePerRequestFilter {
 
-    public static final String TRACE_ID = "traceId";
-    public static final String HEADER = "X-Trace-Id";
+    private static final String HEADER = "X-Trace-Id";
+
+    private static final String TRACE_ID = "traceId";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("TraceIdFilter invoked");
         String traceId = request.getHeader(HEADER);
-        if (traceId == null || traceId.isBlank()) {
-            traceId = UUID.randomUUID().toString().replace("-", "");
+        if (StringUtils.isBlank(traceId)) {
+            traceId = IdUtils.generateSnowflakeIdStr();
         }
 
         try {
-            MDC.put(TRACE_ID, traceId);
+            ThreadContext.put(TRACE_ID, traceId);
             response.setHeader(HEADER, traceId);
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove(TRACE_ID);
+            ThreadContext.remove(TRACE_ID);
         }
     }
 }

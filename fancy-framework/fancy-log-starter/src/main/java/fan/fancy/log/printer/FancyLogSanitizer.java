@@ -1,5 +1,7 @@
 package fan.fancy.log.printer;
 
+import java.util.Arrays;
+
 /**
  * 日常参数安全处理器.
  *
@@ -18,16 +20,15 @@ public final class FancyLogSanitizer {
         }
 
         String text;
-        try {
+        if (value.getClass().isArray()) {
+            text = Arrays.deepToString((Object[]) value);
+        } else {
             text = String.valueOf(value);
-        } catch (Exception ex) {
-            return "<toString-error:" + ex.getClass().getSimpleName() + ">";
         }
 
         if (maxLength <= 0 || text.length() <= maxLength) {
             return text;
         }
-        int cut = Math.max(0, maxLength - ELLIPSIS.length());
-        return text.substring(0, cut) + ELLIPSIS;
+        return text.substring(0, maxLength) + ELLIPSIS;
     }
 }

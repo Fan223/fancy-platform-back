@@ -13,6 +13,7 @@ public class TestService {
 
     @FancyLog
     public String test(String name) {
+        int i = 1 / 0;
         return "Hello, " + name;
     }
 }
