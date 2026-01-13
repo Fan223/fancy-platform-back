@@ -36,7 +36,7 @@ public class FancyLogProperties {
      */
 //    @Min(0)
 //    @Max(100_000)
-    private int maxArgLength = 2048;
+    private int maxArgsLength = 2048;
 
     /**
      * 返回值最大长度（字符）

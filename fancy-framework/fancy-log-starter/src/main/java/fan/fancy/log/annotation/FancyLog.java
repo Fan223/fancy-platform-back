@@ -13,27 +13,32 @@ import java.lang.annotation.*;
 public @interface FancyLog {
 
     /**
-     * 是否记录参数
+     * 描述信息.
      */
-    boolean logArgs() default true;
+    String value() default "";
 
     /**
-     * 是否记录返回值
+     * 是否打印参数.
      */
-    boolean logResult() default true;
+    boolean printArgs() default true;
 
     /**
-     * 最大参数长度(防止大对象)
+     * 最大参数长度.
      */
-    int maxLength() default 2048;
+    int maxArgsLength() default 2048;
 
     /**
-     * 是否忽略异常（只打印 error 简要）
+     * 是否打印返回结果.
+     */
+    boolean printResult() default true;
+
+    /**
+     * 最大返回结果长度.
+     */
+    int maxResultLength() default 2048;
+
+    /**
+     * 是否忽略异常.
      */
     boolean ignoreException() default false;
-
-    /**
-     * 自定义业务标签
-     */
-    String tag() default "";
 }

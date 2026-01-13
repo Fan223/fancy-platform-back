@@ -1,4 +1,4 @@
-package fan.fancy.redis.core;
+package fan.fancy.redis.service;
 
 import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,17 +9,17 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Redis 相关操作类, 封装 {@link RedisTemplate} 和 {@link RedissonClient}.
+ * Redis 服务类, 封装 {@link RedisTemplate} 和 {@link RedissonClient}.
  *
  * @author Fan
  */
-public class FancyRedisTemplate<V> {
+public class FancyRedisService<V> {
 
     private final RedisTemplate<String, V> redisTemplate;
 
     private final RedissonClient redissonClient;
 
-    public FancyRedisTemplate(@Qualifier("redisTemplate") RedisTemplate<String, V> redisTemplate, RedissonClient redissonClient) {
+    public FancyRedisService(@Qualifier("redisTemplate") RedisTemplate<String, V> redisTemplate, RedissonClient redissonClient) {
         this.redisTemplate = redisTemplate;
         this.redissonClient = redissonClient;
     }

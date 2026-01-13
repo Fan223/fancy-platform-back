@@ -1,9 +1,11 @@
 package fan.fancy.log.autoconfigure;
 
+import fan.fancy.log.aspect.FancyControllerLogAspect;
 import fan.fancy.log.aspect.FancyLogAspect;
 import fan.fancy.log.filter.TraceIdFilter;
 import fan.fancy.log.printer.DefaultFancyLogPrinter;
 import fan.fancy.log.printer.FancyLogPrinter;
+import fan.fancy.toolkit.lang.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
-import org.springframework.util.StringUtils;
+
 
 /**
  * 日志自动配置类.
@@ -25,6 +27,7 @@ import org.springframework.util.StringUtils;
 public class FancyLogAutoConfiguration {
 
     private final FancyLogProperties properties;
+
     @Value("${spring.application.name:}")
     private String applicationName;
 
@@ -34,12 +37,8 @@ public class FancyLogAutoConfiguration {
 
     @PostConstruct
     public void init() {
-        if (!StringUtils.hasText(properties.getServiceName())) {
-            if (StringUtils.hasText(applicationName)) {
-                properties.setServiceName(applicationName);
-            } else {
-                properties.setServiceName("unknown-service");
-            }
+        if (!StringUtils.isNotBlank(properties.getServiceName()) && StringUtils.isNotBlank(applicationName)) {
+            properties.setServiceName(applicationName);
         }
     }
 
@@ -47,6 +46,12 @@ public class FancyLogAutoConfiguration {
     @ConditionalOnMissingBean
     public FancyLogPrinter fancyLogPrinter() {
         return new DefaultFancyLogPrinter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FancyControllerLogAspect controllerLogAspect(FancyLogPrinter printer, FancyLogProperties properties) {
+        return new FancyControllerLogAspect(printer, properties);
     }
 
     @Bean

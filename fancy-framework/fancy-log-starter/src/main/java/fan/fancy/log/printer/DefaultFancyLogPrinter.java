@@ -48,7 +48,7 @@ public class DefaultFancyLogPrinter implements FancyLogPrinter {
         if (exception == null) {
             LOGGER.info("{}", msg);
         } else {
-            // 会自动打印完整 stack trace
+            // 会自动打印完整的异常堆栈信息
             LOGGER.error("{}", msg, exception);
         }
     }

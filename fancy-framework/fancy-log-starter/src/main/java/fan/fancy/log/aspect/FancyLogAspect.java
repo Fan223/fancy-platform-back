@@ -10,18 +10,19 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 日志切面.
+ * {@link FancyLog} 切面.
  *
  * @author Fan
  */
 @Aspect
-@Order(Ordered.LOWEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class FancyLogAspect {
 
     private final FancyLogPrinter printer;
@@ -41,8 +42,8 @@ public class FancyLogAspect {
         }
 
         long start = System.nanoTime();
-        Throwable exception = null;
         Object result = null;
+        Throwable exception = null;
 
         try {
             result = joinPoint.proceed();
@@ -65,15 +66,10 @@ public class FancyLogAspect {
     private FancyLog resolveFancyLog(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
-        // 先读取方法上的注解
-        FancyLog fancyLog = AnnotationUtils.findAnnotation(method, FancyLog.class);
-        if (fancyLog != null) {
-            return fancyLog;
-        }
-        // 再读取类上的注解
+        // 获取具体的方法(解决接口/代理/泛型桥接问题)
         Class<?> targetClass = joinPoint.getTarget().getClass();
-        return AnnotationUtils.findAnnotation(targetClass, FancyLog.class);
+        Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
+        return AnnotatedElementUtils.findMergedAnnotation(specificMethod, FancyLog.class);
     }
 
     /**
@@ -91,13 +87,12 @@ public class FancyLogAspect {
                 .serviceName(properties.getServiceName())
                 .className(signature.getDeclaringTypeName())
                 .methodName(signature.getName())
-                .tag(fancyLog.tag())
-                .args(fancyLog.logArgs() ? joinPoint.getArgs() : null)
-                .maxArgsLength(properties.getMaxArgLength())
-                .result(fancyLog.logResult() ? result : null)
+                .tag(fancyLog.value())
+                .args(fancyLog.printArgs() ? joinPoint.getArgs() : null)
+                .maxArgsLength(properties.getMaxArgsLength())
+                .result(fancyLog.printResult() ? result : null)
                 .maxResultLength(properties.getMaxResultLength())
-                .costMs(costMs)
-                .exception(exception)
+                .costMs(costMs).exception(exception)
                 .build();
         printer.print(event);
     }
