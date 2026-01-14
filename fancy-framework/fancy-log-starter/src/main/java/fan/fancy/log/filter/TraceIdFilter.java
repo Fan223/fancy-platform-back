@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * 13
+ * TraceId 过滤器.
  *
  * @author Fan
  */

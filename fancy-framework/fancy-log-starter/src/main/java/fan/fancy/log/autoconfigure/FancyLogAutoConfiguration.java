@@ -3,8 +3,7 @@ package fan.fancy.log.autoconfigure;
 import fan.fancy.log.aspect.FancyControllerLogAspect;
 import fan.fancy.log.aspect.FancyLogAspect;
 import fan.fancy.log.filter.TraceIdFilter;
-import fan.fancy.log.printer.DefaultFancyLogPrinter;
-import fan.fancy.log.printer.FancyLogPrinter;
+import fan.fancy.log.properties.FancyLogProperties;
 import fan.fancy.toolkit.lang.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.DispatcherType;
@@ -37,27 +36,21 @@ public class FancyLogAutoConfiguration {
 
     @PostConstruct
     public void init() {
-        if (!StringUtils.isNotBlank(properties.getServiceName()) && StringUtils.isNotBlank(applicationName)) {
+        if (StringUtils.isBlank(properties.getServiceName()) && StringUtils.isNotBlank(applicationName)) {
             properties.setServiceName(applicationName);
         }
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public FancyLogPrinter fancyLogPrinter() {
-        return new DefaultFancyLogPrinter();
+    public FancyControllerLogAspect fancyControllerLogAspect() {
+        return new FancyControllerLogAspect(properties);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public FancyControllerLogAspect controllerLogAspect(FancyLogPrinter printer, FancyLogProperties properties) {
-        return new FancyControllerLogAspect(printer, properties);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public FancyLogAspect fancyLogAspect(FancyLogPrinter printer, FancyLogProperties properties) {
-        return new FancyLogAspect(printer, properties);
+    public FancyLogAspect fancyLogAspect() {
+        return new FancyLogAspect(properties);
     }
 
     @Bean

@@ -36,9 +36,4 @@ public @interface FancyLog {
      * 最大返回结果长度.
      */
     int maxResultLength() default 2048;
-
-    /**
-     * 是否忽略异常.
-     */
-    boolean ignoreException() default false;
 }

@@ -1,15 +1,13 @@
 package fan.fancy.log.aspect;
 
 import fan.fancy.log.annotation.FancyLog;
-import fan.fancy.log.autoconfigure.FancyLogProperties;
-import fan.fancy.log.model.FancyLogEvent;
+import fan.fancy.log.event.FancyLogEvent;
 import fan.fancy.log.printer.FancyLogPrinter;
-import org.apache.logging.log4j.core.config.Order;
+import fan.fancy.log.properties.FancyLogProperties;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.ClassUtils;
 
@@ -22,22 +20,18 @@ import java.util.concurrent.TimeUnit;
  * @author Fan
  */
 @Aspect
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class FancyLogAspect {
-
-    private final FancyLogPrinter printer;
 
     private final FancyLogProperties properties;
 
-    public FancyLogAspect(FancyLogPrinter printer, FancyLogProperties properties) {
-        this.printer = printer;
+    public FancyLogAspect(FancyLogProperties properties) {
         this.properties = properties;
     }
 
     @Around("@within(fan.fancy.log.annotation.FancyLog) || @annotation(fan.fancy.log.annotation.FancyLog)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         FancyLog fancyLog = resolveFancyLog(joinPoint);
-        if (fancyLog == null || !properties.isEnabled()) {
+        if (fancyLog == null || !properties.isEnabled() || !properties.getAnnotation().isEnabled()) {
             return joinPoint.proceed();
         }
 
@@ -65,11 +59,10 @@ public class FancyLogAspect {
      */
     private FancyLog resolveFancyLog(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        // 获取具体的方法(解决接口/代理/泛型桥接问题)
         Class<?> targetClass = joinPoint.getTarget().getClass();
-        Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
-        return AnnotatedElementUtils.findMergedAnnotation(specificMethod, FancyLog.class);
+        // 获取具体的方法(解决接口/代理/泛型桥接问题)
+        Method method = ClassUtils.getMostSpecificMethod(signature.getMethod(), targetClass);
+        return AnnotatedElementUtils.findMergedAnnotation(method, FancyLog.class);
     }
 
     /**
@@ -89,11 +82,12 @@ public class FancyLogAspect {
                 .methodName(signature.getName())
                 .tag(fancyLog.value())
                 .args(fancyLog.printArgs() ? joinPoint.getArgs() : null)
-                .maxArgsLength(properties.getMaxArgsLength())
+                .maxArgsLength(fancyLog.maxArgsLength())
                 .result(fancyLog.printResult() ? result : null)
-                .maxResultLength(properties.getMaxResultLength())
-                .costMs(costMs).exception(exception)
+                .maxResultLength(fancyLog.maxResultLength())
+                .costMs(costMs)
+                .exception(exception)
                 .build();
-        printer.print(event);
+        FancyLogPrinter.print(event);
     }
 }

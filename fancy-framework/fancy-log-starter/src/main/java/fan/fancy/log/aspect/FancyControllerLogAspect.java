@@ -1,34 +1,29 @@
 package fan.fancy.log.aspect;
 
 import fan.fancy.log.annotation.FancyLog;
-import fan.fancy.log.autoconfigure.FancyLogProperties;
-import fan.fancy.log.model.FancyLogEvent;
+import fan.fancy.log.event.FancyLogEvent;
 import fan.fancy.log.printer.FancyLogPrinter;
+import fan.fancy.log.properties.FancyLogProperties;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 控制器切面.
+ * Controller 日志切面.
  *
  * @author Fan
  */
 @Aspect
-@Order
 public class FancyControllerLogAspect {
-
-    private final FancyLogPrinter printer;
 
     private final FancyLogProperties properties;
 
-    public FancyControllerLogAspect(FancyLogPrinter printer, FancyLogProperties properties) {
-        this.printer = printer;
+    public FancyControllerLogAspect(FancyLogProperties properties) {
         this.properties = properties;
     }
 
@@ -36,9 +31,8 @@ public class FancyControllerLogAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         FancyLog fancyLog = AnnotatedElementUtils.findMergedAnnotation(method, FancyLog.class);
-
         // 如果方法或类上存在 @FancyLog 注解则跳过
-        if (fancyLog != null) {
+        if (fancyLog != null || !properties.isEnabled() || !properties.getController().isEnabled()) {
             return joinPoint.proceed();
         }
 
@@ -58,18 +52,27 @@ public class FancyControllerLogAspect {
         }
     }
 
+    /**
+     * 发布日志事件.
+     *
+     * @param joinPoint {@link ProceedingJoinPoint}
+     * @param result    返回结果
+     * @param exception {@link Throwable}
+     * @param costMs    耗时(毫秒)
+     */
     private void publishEvent(ProceedingJoinPoint joinPoint, Object result, Throwable exception, long costMs) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         FancyLogEvent event = FancyLogEvent.builder()
                 .serviceName(properties.getServiceName())
                 .className(signature.getDeclaringTypeName())
                 .methodName(signature.getName())
-                .args(joinPoint.getArgs())
-                .maxArgsLength(properties.getMaxArgLength())
-                .result(result)
+                .args(properties.isPrintArgs() ? joinPoint.getArgs() : null)
+                .maxArgsLength(properties.getMaxArgsLength())
+                .result(properties.isPrintResult() ? result : null)
                 .maxResultLength(properties.getMaxResultLength())
-                .costMs(costMs).exception(exception)
+                .costMs(costMs)
+                .exception(exception)
                 .build();
-        printer.print(event);
+        FancyLogPrinter.print(event);
     }
 }

@@ -1,4 +1,4 @@
-package fan.fancy.log.model;
+package fan.fancy.log.event;
 
 import lombok.Builder;
 import org.jetbrains.annotations.NotNull;

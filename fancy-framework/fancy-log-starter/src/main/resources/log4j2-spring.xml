@@ -2,15 +2,15 @@
 <Configuration status="WARN" monitorInterval="60">
     <!-- 公共属性 -->
     <Properties>
-        <!-- 日志格式: 时间 等级 线程ID TraceID 线程名 Logger名称 : 日志内容 -->
+        <!-- 日志格式: 时间(带时区) 等级 线程ID TraceID 线程名 Logger名称 : 日志内容 -->
         <Property name="CONSOLE_PATTERN">
             %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %highlight{%-5level} %style{${sys:PID}}{magenta} %notEmpty{[%X{traceId}]} --- [%15.15t] %style{%-40.40logger}{cyan} : %msg%n
         </Property>
         <Property name="FILE_PATTERN">
             %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level ${sys:PID} %notEmpty{[%X{traceId}]} --- [%15.15t] %-40.40logger : %msg%n
         </Property>
-        <!-- 日志目录, 默认 logs -->
-        <Property name="LOG_PATH">${logging.file.path:-logs}</Property>
+        <!-- 日志文件目录, 默认 logs -->
+        <Property name="LOG_FILE_PATH">${logging.file.path:-logs}</Property>
         <!-- 应用名称, 默认 fancy-app -->
         <Property name="APP_NAME">${spring.application.name:-fancy-app}</Property>
         <!-- 根日志级别, 默认 info -->
@@ -27,8 +27,8 @@
 
         <!-- 滚动文件: 优先使用 logging.file.name 配置的路径, 否则等价用 日志目录/应用名称 -->
         <RollingFile name="RollingFile"
-                     fileName="${logging.file.name:-${LOG_PATH}/${APP_NAME}.log}"
-                     filePattern="${logging.file.name:-${LOG_PATH}/${APP_NAME}}.%d{yyyy-MM-dd}.%i.log.gz">
+                     fileName="${logging.file.name:-${LOG_FILE_PATH}/${APP_NAME}.log}"
+                     filePattern="${logging.file.name:-${LOG_FILE_PATH}/${APP_NAME}.log}.%d{yyyy-MM-dd}.%i.gz">
             <!-- 禁止颜色 -->
             <PatternLayout pattern="${FILE_PATTERN}" disableAnsi="true"/>
             <Policies>
