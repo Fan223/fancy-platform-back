@@ -17,5 +17,6 @@
         <module>fancy-jackson-starter</module>
         <module>fancy-log-starter</module>
         <module>fancy-validation-starter</module>
+        <module>fancy-web-starter</module>
     </modules>
 </project>
