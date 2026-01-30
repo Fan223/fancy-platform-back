@@ -18,5 +18,6 @@
         <module>fancy-log-starter</module>
         <module>fancy-validation-starter</module>
         <module>fancy-web-starter</module>
+        <module>fancy-resource-server-starter</module>
     </modules>
 </project>

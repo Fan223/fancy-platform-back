@@ -1,0 +1,6 @@
+fan.fancy.server.resource.starter.autoconfigure.FancyResourceServerAutoConfiguration
+fan.fancy.server.resource.starter.servlet.FancyAuthenticationEntryPoint
+fan.fancy.server.resource.starter.servlet.FancyAccessDeniedHandler
+fan.fancy.server.resource.starter.autoconfigure.FancyReactiveResourceServerAutoConfiguration
+fan.fancy.server.resource.starter.reactive.FancyReactiveAuthenticationEntryPoint
+fan.fancy.server.resource.starter.reactive.FancyReactiveAccessDeniedHandler
