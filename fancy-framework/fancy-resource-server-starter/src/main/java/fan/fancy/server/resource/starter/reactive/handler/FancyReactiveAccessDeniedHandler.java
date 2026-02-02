@@ -1,4 +1,4 @@
-package fan.fancy.server.resource.starter.reactive;
+package fan.fancy.server.resource.starter.reactive.handler;
 
 import fan.fancy.toolkit.http.Response;
 import lombok.AllArgsConstructor;
@@ -45,7 +45,7 @@ public class FancyReactiveAccessDeniedHandler implements ServerAccessDeniedHandl
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAcceptCharset(List.of(StandardCharsets.UTF_8));
 
-        byte[] body = jsonMapper.writeValueAsBytes(Response.fail(message));
+        byte[] body = jsonMapper.writeValueAsBytes(Response.fail(HttpStatus.FORBIDDEN.value(), message));
         DataBuffer buffer = response.bufferFactory().wrap(body);
         return response.writeWith(Mono.just(buffer));
     }

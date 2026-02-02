@@ -1,4 +1,4 @@
-package fan.fancy.server.resource.starter.servlet;
+package fan.fancy.server.resource.starter.servlet.handler;
 
 import fan.fancy.toolkit.http.Response;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,11 +35,11 @@ public class FancyAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String message = authException.getMessage();
         log.error("FancyAuthenticationEntryPoint: {}", message);
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8);
         response.setHeader(HttpHeaders.WWW_AUTHENTICATE, message);
 
-        jsonMapper.writeValue(response.getOutputStream(), Response.fail(message));
+        jsonMapper.writeValue(response.getOutputStream(), Response.fail(HttpServletResponse.SC_UNAUTHORIZED, message));
     }
 }

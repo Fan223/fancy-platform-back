@@ -1,4 +1,4 @@
-package fan.fancy.server.resource.starter.reactive;
+package fan.fancy.server.resource.starter.reactive.handler;
 
 import fan.fancy.toolkit.http.Response;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
+ * {@link ConditionalOnWebApplication.Type#REACTIVE} 认证入口点.
  *
  * @author Fan
  */
@@ -45,7 +46,7 @@ public class FancyReactiveAuthenticationEntryPoint implements ServerAuthenticati
         headers.setAcceptCharset(List.of(StandardCharsets.UTF_8));
         headers.set(HttpHeaders.WWW_AUTHENTICATE, message);
 
-        byte[] body = jsonMapper.writeValueAsBytes(Response.fail(message));
+        byte[] body = jsonMapper.writeValueAsBytes(Response.fail(HttpStatus.UNAUTHORIZED.value(), message));
         DataBuffer buffer = response.bufferFactory().wrap(body);
         return response.writeWith(Mono.just(buffer));
     }
