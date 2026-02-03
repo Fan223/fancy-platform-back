@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.nio.charset.StandardCharsets;
  * @author Fan
  */
 @Slf4j
-@Component
 @AllArgsConstructor
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class FancyAccessDeniedHandler implements AccessDeniedHandler {

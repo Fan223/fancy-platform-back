@@ -2,7 +2,7 @@ package fan.fancy.server.resource.starter.servlet.configurer;
 
 import fan.fancy.server.resource.starter.servlet.handler.FancyAccessDeniedHandler;
 import fan.fancy.server.resource.starter.servlet.handler.FancyAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,8 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
  *
  * @author Fan
  */
-@RequiredArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class FancyResourceServerConfigurer extends AbstractHttpConfigurer<FancyResourceServerConfigurer, HttpSecurity> {
 

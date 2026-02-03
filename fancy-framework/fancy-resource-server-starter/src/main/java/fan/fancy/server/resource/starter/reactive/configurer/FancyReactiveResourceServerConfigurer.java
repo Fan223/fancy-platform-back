@@ -2,7 +2,7 @@ package fan.fancy.server.resource.starter.reactive.configurer;
 
 import fan.fancy.server.resource.starter.reactive.handler.FancyReactiveAccessDeniedHandler;
 import fan.fancy.server.resource.starter.reactive.handler.FancyReactiveAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
  *
  * @author Fan
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class FancyReactiveResourceServerConfigurer {
 
@@ -23,12 +23,12 @@ public class FancyReactiveResourceServerConfigurer {
 
     private final FancyReactiveAccessDeniedHandler reactiveAccessDeniedHandler;
 
-    private final Converter<Jwt, Mono<AbstractAuthenticationToken>> converter;
+    private final Converter<Jwt, Mono<AbstractAuthenticationToken>> reactiveJwtAuthenticationConverter;
 
     public void configure(ServerHttpSecurity http) {
         http.oauth2ResourceServer(spec -> spec
                 .jwt(jwtSpec -> jwtSpec
-                        .jwtAuthenticationConverter(converter))
+                        .jwtAuthenticationConverter(reactiveJwtAuthenticationConverter))
                 .authenticationEntryPoint(reactiveAuthenticationEntryPoint)
                 .accessDeniedHandler(reactiveAccessDeniedHandler)
         );
