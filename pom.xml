@@ -5,10 +5,10 @@
     <parent>
         <groupId>fan</groupId>
         <artifactId>fancy-parent</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.3</version>
     </parent>
     <artifactId>fancy-platform</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>fancy-platform</name>
@@ -34,7 +34,12 @@
         <tag/>
     </scm>
 
+    <properties>
+        <revision>1.0.0</revision>
+    </properties>
+
     <modules>
         <module>fancy-framework</module>
+        <module>fancy-services</module>
     </modules>
 </project>
