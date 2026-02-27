@@ -7,13 +7,11 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>fancy-services</artifactId>
+    <artifactId>fancy-samples</artifactId>
     <packaging>pom</packaging>
-    <name>fancy-services</name>
+    <name>fancy-samples</name>
 
     <modules>
-        <module>fancy-authorization-server</module>
-        <module>fancy-gateway</module>
-        <module>fancy-admin-server</module>
+        <module>fancy-admin-client-sample</module>
     </modules>
 </project>

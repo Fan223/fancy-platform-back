@@ -41,5 +41,6 @@
     <modules>
         <module>fancy-framework</module>
         <module>fancy-services</module>
+        <module>fancy-samples</module>
     </modules>
 </project>

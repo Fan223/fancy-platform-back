@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 10000
 
 spring:
   application:
@@ -30,6 +30,7 @@ spring:
         webflux:
           default-filters:
             - TokenRelay
+            - StripPrefix=1
           routes:
             - id: resource
               uri: lb://resource
