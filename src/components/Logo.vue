@@ -65,29 +65,46 @@ const padding = computed(() => {
 
 <style scoped lang="scss">
 div {
-  border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
-  animation: morph 6s ease-in-out infinite;
+  border-radius: 58% 42% 55% 45% / 46% 54%;
+  animation:
+    morph 8s ease-in-out infinite,
+    breath 8s ease-in-out infinite;
 }
 
 @keyframes morph {
   0%,
   100% {
-    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    border-radius: 58% 42% 55% 45% / 46% 54%;
   }
 
-  33% {
-    border-radius: 70% 30% 45% 55% / 55% 40% 60% 45%;
+  25% {
+    border-radius: 65% 35% 48% 52% / 55% 45% 60% 40%;
   }
 
-  66% {
-    border-radius: 40% 60% 65% 35% / 50% 65% 35% 50%;
+  50% {
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+  }
+
+  75% {
+    border-radius: 60% 40% 50% 50% / 42% 58% 55% 45%;
+  }
+}
+
+@keyframes breath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
   }
 }
 
 .logo-container {
   position: relative;
   display: inline-flex;
-  border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  border-radius: 58% 42% 55% 45% / 46% 54%;
 
   // 跟你的 div 形状一致
 }
@@ -97,7 +114,7 @@ div {
   inset: -4px;
   background: var(--main-gradient);
   border-radius: inherit;
-  filter: blur(16px);
+  filter: blur(0.5rem);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
