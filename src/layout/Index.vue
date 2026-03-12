@@ -1,7 +1,15 @@
 <template>
   <Header />
 
-  <main class="layout">
+  <button @click="fixed = !fixed">click</button>
+
+  <main
+    class="layout"
+    :style="{
+      gridTemplateColumns: gridTemplate,
+      maxWidth: fixed ? '1340px' : 'none',
+    }"
+  >
     <aside v-if="hasLeft" style="border: 1px solid red" class="sidebar-left">
       <RouterView name="left" />
     </aside>
@@ -24,6 +32,9 @@
 
 <script lang="ts" setup>
 import Header from "./Header.vue";
+import { useGlobalStore } from "@/pinia";
+
+const { screenWidth } = storeToRefs(useGlobalStore());
 
 const route = useRoute();
 // 取最后一个即当前子路由
@@ -33,13 +44,25 @@ const hasRight = computed(() => !!currentMatched.value?.components?.right);
 
 const gridTemplate = computed(() => {
   if (hasLeft.value && hasRight.value) {
-    return "240px minmax(0,1fr) 240px";
+    if (screenWidth.value <= 992 && screenWidth.value > 768) {
+      console.log(992);
+      return "240px 1fr 0";
+    } else if (screenWidth.value <= 768) {
+      console.log(768);
+      return "0 1fr 0";
+    }
+    return "clamp(240px, 20%, 270px) 1fr clamp(240px, 20%, 270px)";
   } else if (hasLeft.value) {
     return "240px minmax(0,1fr)";
   } else if (hasRight.value) {
     return "minmax(0,1fr) 240px";
   }
   return "minmax(0,1fr)";
+});
+
+const fixed = ref(false);
+const fixedWidth = computed(() => {
+  return "1100px";
 });
 </script>
 
@@ -51,12 +74,14 @@ const gridTemplate = computed(() => {
   --layout-max-width: 1340px;
 
   display: grid;
-  grid-template-columns:
-    var(--sidebar-left-width)
-    minmax(0, var(--content-max-width))
-    var(--sidebar-right-width);
+
+  // grid-template-columns:
+  //   var(--sidebar-left-width)
+  //   minmax(0, var(--content-max-width))
+  //   var(--sidebar-right-width);
   gap: 32px;
-  max-width: var(--layout-max-width);
+
+  // max-width: var(--layout-max-width);
   margin: 0 auto;
 }
 
@@ -76,28 +101,29 @@ const gridTemplate = computed(() => {
 
 .content {
   width: 100%;
-  max-width: 820px;
+
+  // max-width: 1100px;
 }
 
-@media (width <= 1200px) {
-  .layout {
-    grid-template-columns:
-      var(--sidebar-left-width)
-      minmax(0, 1fr);
-  }
+// @media (width <= 1200px) {
+//   .layout {
+//     grid-template-columns:
+//       var(--sidebar-left-width)
+//       minmax(0, 1fr);
+//   }
 
-  .sidebar-right {
-    display: none;
-  }
-}
+//   // .sidebar-right {
+//   //   display: none;
+//   // }
+// }
 
-@media (width <= 768px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+// @media (width <= 768px) {
+//   .layout {
+//     grid-template-columns: 1fr;
+//   }
 
-  .sidebar-left {
-    display: none;
-  }
-}
+//   .sidebar-left {
+//     display: none;
+//   }
+// }
 </style>
