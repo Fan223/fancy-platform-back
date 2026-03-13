@@ -28,6 +28,21 @@ const routes: RouteRecordRaw[] = [
           left: () => import("@/views/tool/ToolLeft.vue"),
         },
       },
+      {
+        path: "/dict",
+        name: "Dictionary",
+        components: {
+          default: () => import("@/views/dictionary/Index.vue"),
+        },
+      },
+      {
+        path: "/nav",
+        name: "Nav",
+        components: {
+          default: () => import("@/views//nav/Index.vue"),
+          right: () => import("@/views//nav/NavRight.vue"),
+        },
+      },
     ],
   },
 ];
