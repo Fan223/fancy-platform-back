@@ -1,5 +1,5 @@
 <template>
-  <div h-300>Category</div>
+  <div h-500>Category</div>
 </template>
 
 <script lang="ts" setup></script>

@@ -1,21 +1,20 @@
 <template>
   <Header />
 
-  <button @click="fixed = !fixed">click</button>
-
   <div
     grid
     gap-6
     m-auto
     :style="{
       gridTemplateColumns: layoutGridTemplate,
-      border: '1px solid red',
       maxWidth: fixed ? '1280px' : 'none',
     }"
   >
     <aside
       v-if="hasLeft"
-      :style="{ height: 'calc(100vh - 6rem)', border: '1px solid pink' }"
+      :style="{
+        height: 'calc(100vh - 6rem)',
+      }"
       sticky
       top-20
       overflow-y-auto
@@ -28,35 +27,25 @@
         marginLeft: hasLeft ? '0' : '1.5rem',
         marginRight: hasRight ? '0' : '1.5rem',
       }"
+      mt-6
     >
       <main
         grid
         gap-6
         :style="{
           gridTemplateColumns: contentdGridTemplate,
-          border: '1px solid white',
         }"
       >
-        <div class="content" style="border: 1px solid orange">
+        <div class="content">
           <RouterView />
         </div>
 
-        <!-- <div
-          :style="{
-            paddingRight: fixed
-              ? screenWidth < 1304
-                ? '1.5rem'
-                : '0'
-              : '1.5rem',
-          }"
-        > -->
         <aside
           v-if="hasRight"
           :style="{
             height: 'calc(100vh - 6rem)',
             scrollbarWidth: 'none',
-            border: '1px solid blue',
-            // boxSizing: 'content-box',
+            boxSizing: 'content-box',
             marginRight: fixed
               ? screenWidth < 1304
                 ? '1.5rem'
@@ -113,7 +102,7 @@ const contentdGridTemplate = computed(() => {
   return "1fr";
 });
 
-const fixed = ref(false);
+const fixed = computed(() => currentMatched.value?.meta.fixed ?? true);
 </script>
 
 <style lang="scss" scoped>

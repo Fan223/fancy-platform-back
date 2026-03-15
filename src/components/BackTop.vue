@@ -2,12 +2,12 @@
   <div
     v-if="scrollPercent > 0"
     :style="{
-      background: `conic-gradient(var(--text-accent) calc(${scrollPercent}%), var(--background-primary) 0)`,
+      background: `conic-gradient(var(--text-accent) calc(${scrollPercent}%), var(--background-secondary) 0)`,
     }"
     @click="scrollToTop"
     fixed
-    right-4
-    bottom-12
+    right-10
+    bottom-10
     p-1
     rd="50%"
     cursor-pointer
@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/pinia";
 
-const { screenWidth, scrollPercent } = storeToRefs(useGlobalStore());
+const { scrollPercent, screenWidth } = storeToRefs(useGlobalStore());
 
 // 计算滚动百分比
 function calcScrollPercent() {
@@ -61,5 +61,3 @@ onUnmounted(() => {
   window.removeEventListener("resize", handleScreenResize);
 });
 </script>
-
-<style scoped lang="scss"></style>

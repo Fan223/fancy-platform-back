@@ -19,6 +19,7 @@ const routes: RouteRecordRaw[] = [
           left: () => import("@/views/blog/BlogLeft.vue"),
           right: () => import("@/views/blog/BlogRight.vue"),
         },
+        meta: { fixed: false },
       },
       {
         path: "/tool",

@@ -7,6 +7,7 @@
     top-0
     flex="~ justify-between items-center"
     p="x-8 y-4"
+    c-white
     z-999
   >
     <Logo />
@@ -31,8 +32,7 @@ const { scrollPercent } = storeToRefs(useGlobalStore());
   transition: var(--theme-transition);
 
   &.active {
-    // background-color: var(--background-backdrop);
-    background: var(--main-gradient);
+    background-color: var(--background-backdrop);
     backdrop-filter: blur(0.5rem);
     color: var(--text-bright);
     padding: 0.5rem 2rem;
