@@ -7,7 +7,6 @@
     top-0
     flex="~ justify-between items-center"
     p="x-8 y-4"
-    c-white
     z-999
   >
     <Logo />
@@ -29,12 +28,14 @@ const { scrollPercent } = storeToRefs(useGlobalStore());
 
 <style lang="scss" scoped>
 .header {
-  transition: var(--theme-transition);
+  color: var(--text-bright);
+  transition:
+    all 0.5s ease,
+    background 1.2s ease;
 
   &.active {
     background-color: var(--background-backdrop);
     backdrop-filter: blur(0.5rem);
-    color: var(--text-bright);
     padding: 0.5rem 2rem;
   }
 }
