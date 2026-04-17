@@ -1,22 +1,22 @@
 <template>
   <div :style="{ height: props.size, width: props.size }" cursor-pointer>
-    <SizedBox
+    <div
       class="i-ic:twotone-contrast"
+      size-full
       v-if="'os' === theme"
       @click="changeTheme('light')"
-      fill
     />
-    <SizedBox
+    <div
       class="i-line-md:moon-filled-to-sunny-filled-loop-transition"
+      size-full
       v-if="'light' === theme"
       @click="changeTheme('dark')"
-      fill
     />
-    <SizedBox
+    <div
       class="i-line-md:sunny-filled-loop-to-moon-filled-loop-transition"
+      size-full
       v-if="'dark' === theme"
       @click="changeTheme('light')"
-      fill
     />
   </div>
 </template>

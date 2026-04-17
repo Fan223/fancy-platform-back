@@ -60,7 +60,7 @@
                 }"
                 my-4
               >
-                {{ article.digest }}
+                {{ article.content }}
               </p>
             </div>
 
@@ -91,7 +91,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  layout: "vertical",
+  layout: "horizontal",
   column: 2,
 });
 

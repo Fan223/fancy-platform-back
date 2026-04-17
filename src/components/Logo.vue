@@ -1,18 +1,18 @@
 <template>
-  <div class="logo-container" relative>
+  <div relative>
     <div class="glow" />
 
     <Aurora
       :style="{ height: props.height, width: props.width, padding: padding }"
     >
       <div
+        flex
+        h-full
+        bg="#1a1a1a"
+        c-white
         :style="{
           padding: padding,
-          background: '#1a1a1a',
         }"
-        h-full
-        flex
-        c-white
       >
         <svg
           viewBox="0 0 1024 1024"
@@ -47,12 +47,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  height?: string;
-  width?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<{ height?: string; width?: string }>(), {
   height: "3rem",
   width: "2.5rem",
 });
@@ -68,66 +63,62 @@ const padding = computed(() => {
 div {
   border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
   animation:
-    morph 16s linear infinite,
-    breath 16s linear infinite;
+    morph 12s ease-in-out infinite,
+    breath 6s ease-in-out infinite;
 }
 
 @keyframes morph {
   0% {
-    border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
+    border-radius: 58% 42% 55% 45% / 52% 48%;
   }
 
-  14% {
-    border-radius: 55% 45% 75% 25% / 65% 35% 70% 30%;
+  25% {
+    border-radius: 60% 40% 52% 48% / 55% 45% 50% 50%;
   }
 
-  28% {
-    border-radius: 35% 65% 65% 35% / 70% 40% 60% 30%;
+  50% {
+    border-radius: 55% 45% 50% 50% / 50% 50% 55% 45%;
   }
 
-  42% {
-    border-radius: 25% 75% 40% 60% / 55% 25% 75% 35%;
-  }
-
-  57% {
-    border-radius: 45% 55% 25% 75% / 30% 65% 35% 70%;
-  }
-
-  71% {
-    border-radius: 65% 35% 45% 55% / 40% 75% 25% 65%;
-  }
-
-  85% {
-    border-radius: 80% 20% 55% 45% / 60% 45% 55% 40%;
+  75% {
+    border-radius: 52% 48% 58% 42% / 48% 52% 45% 55%;
   }
 
   100% {
-    border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
+    border-radius: 58% 42% 55% 45% / 52% 48%;
   }
 }
 
 @keyframes breath {
   0%,
   100% {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 
   50% {
-    transform: scale(1.05);
+    transform: scale(1.02) translateY(-2%);
   }
 }
 
 .glow {
   position: absolute;
   background: var(--main-gradient);
-  inset: -0.25rem; // 比容器略大, 让光晕溢出
-  filter: blur(0.5rem); // 模糊变成光晕
-  opacity: 0; // 默认隐藏
-  transition: opacity 0.25s linear;
-  z-index: -1;
+  inset: -0.25rem;
+  filter: blur(0.5rem);
+  opacity: 0.6;
+  animation: glow-pulse 6s ease-in-out infinite;
 }
 
-.logo-container:hover .glow {
-  opacity: 1;
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
 }
 </style>

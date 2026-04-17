@@ -1,10 +1,5 @@
 <template>
   <div
-    v-if="scrollPercent > 0"
-    :style="{
-      background: `conic-gradient(var(--text-accent) calc(${scrollPercent}%), var(--background-secondary) 0)`,
-    }"
-    @click="scrollToTop"
     fixed
     right-10
     bottom-10
@@ -12,14 +7,14 @@
     rd="50%"
     cursor-pointer
     z-999
+    :style="{
+      background: `conic-gradient(var(--text-accent) calc(${scrollPercent}%), var(--background-secondary) 0)`,
+    }"
+    v-if="scrollPercent > 0"
+    @click="scrollToTop"
   >
-    <div style="background-color: var(--background-primary)" p-1 rd="50%">
-      <SizedBox
-        class="i-line-md:upload-loop"
-        style="color: var(--text-accent)"
-        size="2.5rem"
-        fill
-      />
+    <div bg="[var(--background-primary)]" p-1 rd="50%">
+      <div class="i-line-md:upload-loop" size-10 color="[var(--text-accent)]" />
     </div>
   </div>
 </template>
